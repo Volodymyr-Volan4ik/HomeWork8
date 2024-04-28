@@ -216,12 +216,19 @@ def save_data(book, filename="addressbook.pkl"):
         pickle.dump(book, f)
 
 
-def load_data(filename="addressbook.pkl"):
+def load_data(filename=r"C:\Users\Volan4ik\Desktop\Новая папка (2)\HomeWork8\adressbook.pkl"):
     try:
         with open(filename, "rb") as f:
-            return pickle.load(f)
-    except FileNotFoundError:
-        return AddressBook() 
+            # Проверяем, не пуст ли файл
+            if os.path.getsize(filename) > 0:
+                return pickle.load(f)
+            else:
+                print("File is empty.")
+                return AddressBook()
+    except (FileNotFoundError, EOFError):
+        print("Error loading data. Creating a new address book.")
+        return AddressBook()
+
 
 def main():
     book = load_data()
